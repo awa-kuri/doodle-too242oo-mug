@@ -524,15 +524,15 @@
   }
   .cal-nav-btn:active { background: var(--card); }
   .cal-month {
-    font-family: var(--font-display);
+    font-family: var(--font-num);
     font-size: 16px;
     letter-spacing: 0.1em;
   }
   .cal-month .cal-year {
     font-family: var(--font-num);
     font-style: italic;
-    color: var(--text-mute);
-    font-size: 13px;
+    color: var(--text);
+    font-size: 15px;
     margin-right: 6px;
   }
   .cal-grid {
@@ -587,8 +587,8 @@
     max-width: 100%;
   }
   .cal-drop {
-    width: 5px;
-    height: 7px;
+    width: 10px;
+    height: 14px;
   }
   .cal-drop path { fill: var(--text-mute); }
   .cal-drop.small path { fill: var(--text-mute); opacity: 0.5; }
@@ -1706,7 +1706,7 @@ let calYear, calMonth, selectedDayKey = null;
 
 function renderCalendar() {
   const label = document.getElementById('cal-month-label');
-  label.innerHTML = `<span class="cal-year">${calYear}</span>${calMonth + 1}月`;
+  label.innerHTML = `<span class="cal-year">${calYear}.${calMonth + 1}</span>`;
   const grid = document.getElementById('cal-grid');
   grid.innerHTML = '';
 
@@ -2087,6 +2087,15 @@ function refreshAll() {
 refreshAll();
 // Update elapsed time every minute
 setInterval(renderElapsed, 60 * 1000);
+
+/* Service Worker登録 */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {/* 黙殺 */});
+  });
+}
+
+
 
 </script>
 

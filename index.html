@@ -3,21 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
-<meta name="theme-color" content="#FFFFFF">
-<meta name="apple-mobile-web-app-capable" content="yes">
+<title>通</title>
+
+<!-- PWA / iOS ホーム画面追加対応 -->
+<link rel="manifest" href="manifest.json" />
+<link rel="apple-touch-icon" href="icon-192.png" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="通">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="robots" content="noindex, nofollow">
-<title>通</title>
-
-<link rel="manifest" href='data:application/manifest+json,{"name":"通","short_name":"通","start_url":"./","display":"standalone","background_color":"%23FFFFFF","theme_color":"%23FFFFFF","orientation":"portrait","icons":[{"src":"data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 192 192%22><rect width=%22192%22 height=%22192%22 fill=%22%23FFFFFF%22/><path d=%22M96 40 C 70 80 60 110 60 130 a 36 36 0 0 0 72 0 c 0 -20 -10 -50 -36 -90 z%22 fill=%22%23A8B5A0%22/></svg>","sizes":"192x192","type":"image/svg+xml"}]}'>
-
-<link rel="apple-touch-icon" href='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180"><rect width="180" height="180" fill="%23FFFFFF"/><path d="M90 38 C 65 75 55 103 55 122 a 35 35 0 0 0 70 0 c 0 -19 -10 -47 -35 -84 z" fill="%23A8B5A0"/></svg>'>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@300;400;500&family=Noto+Sans+JP:wght@300;400;500&family=Cormorant+Garamond:ital,wght@1,300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@300;400;500&family=Noto+Sans+JP:wght@300;400;500&family=Fraunces:opsz,wght,SOFT@9..144,400..600,50..100&display=swap" rel="stylesheet">
 
 <style>
   /* ========== Reset & Base ========== */
@@ -50,7 +49,7 @@
     --safe-top: env(safe-area-inset-top, 0px);
     --font-display: "Zen Maru Gothic", "Hiragino Maru Gothic ProN", serif;
     --font-body: "Noto Sans JP", "Hiragino Sans", sans-serif;
-    --font-num: "Cormorant Garamond", "Zen Maru Gothic", serif;
+--font-num: "Fraunces", "Zen Maru Gothic", serif;
   }
 
   html, body {
@@ -75,8 +74,8 @@
     position: absolute;
     top: calc(var(--safe-top) + 8px);
     right: 20px;
-    width: 80px;
-    height: 32px;
+    width: 96px;
+    height: 36px;
     opacity: 0.35;
     pointer-events: none;
     z-index: 1;
@@ -141,13 +140,14 @@
     color: var(--text);
     line-height: 1;
   }
-  .elapsed-num {
-    font-family: var(--font-num);
-    font-style: italic;
-    font-size: 64px;
-    font-weight: 300;
-    color: var(--text);
-  }
+.elapsed-num {
+  font-family: var(--font-num);
+  font-style: normal;
+  font-size: 64px;
+  font-weight: 500;
+  font-variation-settings: "SOFT" 80, "opsz" 96;
+  color: var(--text);
+}
   .elapsed-unit {
     font-size: 14px;
     letter-spacing: 0.1em;
@@ -404,24 +404,26 @@
   }
 
   /* Amount selector - drop sizes */
-  .amount-options {
-    display: flex;
-    gap: 8px;
-    justify-content: space-around;
-    align-items: flex-end;
-  }
-  .amount-btn {
-    flex: 1;
-    padding: 14px 8px 12px;
-    background: var(--card-soft);
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    transition: all 0.2s;
-  }
+.amount-options {
+  display: flex;
+  gap: 8px;
+  justify-content: space-around;
+  align-items: stretch;          /* flex-end から stretch に */
+}
+.amount-btn {
+  flex: 1;
+  padding: 14px 8px 12px;
+  background: var(--card-soft);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;     /* 雫とラベルを下揃え */
+  gap: 8px;
+  transition: all 0.2s;
+  min-height: 100px;             /* 追加：高さ固定 */
+}
   .amount-btn.selected {
     background: var(--bg);
     border-color: var(--accent-green);
@@ -1014,20 +1016,30 @@
     .elapsed-num { font-size: 52px; }
     .actions { margin-top: 28px; }
   }
+
+/* 画像を囲むコンテナの配置設定 */
+.top-right-accent {
+  position: absolute;
+  top: 10px;           /* 画面上部からの余白 */
+  right: 0px;         /* 画面右側からの余白 */
+}
+
+/* 画像自体のサイズ・見た目の設定 */
+.top-right-accent img {
+  width: 200px;         /* 画像の横幅（サイズ調整） */
+  height: auto;        /* 縦横比を維持 */
+  display: block;      /* 下部の不要な隙間を排除 */
+}
+
+
 </style>
 </head>
 <body>
 
 <!-- Decorative eucalyptus -->
-<svg class="eucalyptus" viewBox="0 0 80 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-  <path d="M 4 26 Q 30 22 70 12" />
-  <ellipse class="leaf" cx="14" cy="22" rx="3.5" ry="2" transform="rotate(-20 14 22)"/>
-  <ellipse class="leaf" cx="24" cy="19" rx="3.5" ry="2" transform="rotate(-25 24 19)"/>
-  <ellipse class="leaf" cx="34" cy="16" rx="3.5" ry="2" transform="rotate(-30 34 16)"/>
-  <ellipse class="leaf" cx="44" cy="14" rx="3.5" ry="2" transform="rotate(-32 44 14)"/>
-  <ellipse class="leaf" cx="54" cy="12" rx="3.5" ry="2" transform="rotate(-35 54 12)"/>
-  <ellipse class="leaf" cx="64" cy="11" rx="3" ry="1.8" transform="rotate(-38 64 11)"/>
-</svg>
+<div class="top-right-accent">
+<img src="eucalyptus.png">
+</div>
 
 <!-- ====================================== -->
 <!-- View: Main (記録) -->
@@ -1057,14 +1069,11 @@
       <svg width="14" height="18" viewBox="0 0 14 18" xmlns="http://www.w3.org/2000/svg">
         <path d="M7 1 C 4 6 2 10 2 13 a 5 5 0 0 0 10 0 c 0 -3 -2 -7 -5 -12 z" fill="currentColor"/>
       </svg>
-      <span>排便を記録</span>
+      <span>記録</span>
     </button>
     <button class="btn-sub" id="btn-record-event">
-      <svg width="14" height="12" viewBox="0 0 14 12" xmlns="http://www.w3.org/2000/svg">
-        <path d="M 2 10 Q 7 2 12 8" stroke="currentColor" stroke-width="1" fill="none"/>
-        <ellipse cx="5" cy="7" rx="2.5" ry="1.4" transform="rotate(-25 5 7)" fill="currentColor" opacity="0.6"/>
-        <ellipse cx="9" cy="5" rx="2.5" ry="1.4" transform="rotate(-30 9 5)" fill="currentColor" opacity="0.6"/>
-      </svg>
+     <img src="leaf.png" width="14" height="14">
+
       <span>イベントを記録</span>
     </button>
   </div>
@@ -1160,10 +1169,10 @@
   </div>
   <div class="about-body">
     <h3>このアプリについて</h3>
-    <p>「通（つう）」は便通の有無・量・タイミング・きっかけを記録し、排便リズムを可視化するための軽量アプリである。</p>
+    <p>「通（つう）」は便通の有無・量・タイミング・きっかけを記録し、排便リズムの可視化と便秘傾向の把握を支援するアプリである。</p>
 
     <h3>記録の仕方</h3>
-    <p><strong>排便</strong>と<strong>イベント</strong>の二種類を記録できる。イベントとは、便秘薬の服用・水分多めの摂取・食物繊維の追加など、便通に影響しうる行為である。両者を時系列に並べることで、何が排便を促したかを後から辿れる。</p>
+    <p><strong>便通</strong>と<strong>イベント</strong>の二種類を記録できる。イベントとは、便秘薬の服用・水分多めの摂取・食物繊維の追加など、便通に影響しうる行為である。両者を時系列に並べることで、何が便通を促したかを後から辿れる。</p>
 
     <h3>経過時間と色の意味</h3>
     <div class="about-legend"><span class="swatch" style="background:#A8B5A0"></span><span>0〜48時間：通常</span></div>
@@ -1172,13 +1181,13 @@
     <p>普段は無機質な白とグレーであるが、間隔が空くと色が立ち上がる。香りが立つように。</p>
 
     <h3>量の表現</h3>
-    <p>雫の大きさで示す。少量・普通・多い。言葉ではなく形で。</p>
+    <p>雫の大きさで示す。少量・普通・多い。</p>
 
     <h3>データについて</h3>
     <p>記録はこの端末の中にのみ保存される。サーバーに送信されることはない。端末を変えるときは「設定」から書き出し・取り込みを行うこと。</p>
 
     <h3>名称</h3>
-    <p>「通」——通じること。流れること。それだけのことに、これだけの言葉を充てている。</p>
+    <p>「通」——通じること。流れること。</p>
   </div>
 </section>
 
@@ -1189,7 +1198,7 @@
 
 <div class="modal" id="modal-bowel">
   <div class="modal-handle"></div>
-  <h2 class="modal-title" id="modal-bowel-title">排便を記録</h2>
+  <h2 class="modal-title" id="modal-bowel-title">通を記録</h2>
   <div class="form-group">
     <label class="form-label">datetime</label>
     <input type="datetime-local" class="form-input" id="bowel-datetime">
@@ -1523,7 +1532,7 @@ let editingId = null;
 
 function openBowelModal(record = null) {
   editingId = record ? record.id : null;
-  document.getElementById('modal-bowel-title').textContent = record ? '排便を編集' : '排便を記録';
+  document.getElementById('modal-bowel-title').textContent = record ? '通を編集' : '通を記録';
   document.getElementById('bowel-delete').classList.toggle('hidden', !record);
 
   if (record) {

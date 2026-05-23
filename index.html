@@ -169,7 +169,7 @@
     max-width: 260px;
   }
   .progress {
-    height: 3px;
+    height: 5px;
     background: var(--line);
     border-radius: 999px;
     overflow: hidden;
@@ -794,7 +794,6 @@
     background: var(--card-soft);
     border-radius: 12px;
     padding: 14px 16px;
-            flex-wrap: wrap;
   }
   .tag-edit-list {
     display: flex;
@@ -806,11 +805,12 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 6px 8px 6px 12px;
+    padding: 6px 12px 6px 12px;
     background: var(--bg);
     border: 1px solid var(--line);
     border-radius: 999px;
     font-size: 12px;
+text-align: center;
     color: var(--text-sub);
   }
   .tag-edit .tag-remove {
@@ -832,24 +832,25 @@
   }
   .tag-add-row {
     display: flex;
+    flex-wrap: wrap;
     gap: 8px;
   }
   .tag-add-input {
     padding: 8px 12px;
+width: 62px;
     background: var(--bg);
     border: 1px solid var(--line);
     border-radius: 999px;
     font-size: 12px;
   }
   .tag-add-btn {
-    padding: 0 16px;
     background: var(--text);
     color: var(--bg);
+    padding: 6px 12px 6px 12px;
     border-radius: 999px;
     font-size: 12px;
     font-family: var(--font-display);
     letter-spacing: 0.1em;
-  white-space: nowrap;
   }
 
   .data-btn {
@@ -1146,7 +1147,7 @@
       <div class="tag-edit-list" id="tag-list-event"></div>
       <div class="tag-add-row">
         <input type="text" class="tag-add-input" id="tag-input-event" placeholder="新しい種別" maxlength="20"style="flex:1;">
-        <button class="tag-add-btn" id="tag-add-event" style="flex:none;"">追加</button>
+        <button class="tag-add-btn" id="tag-add-event" style="flex:none;">追加</button>
       </div>
     </div>
   </div>
@@ -1335,12 +1336,12 @@ const PRESET_BOWEL_TAGS = ['朝食後', '昼食後', '夕食後', '起床後', '
 const PRESET_EVENT_TAGS = ['便秘薬', '水分多め', '食物繊維', 'その他'];
 
 const MESSAGES_48H = [
-  '少し間が空いている。水は飲んでいるか',
-  '二日である。水分と食物繊維を意識せよ'
+  '少し間が空いている。水は飲んでいるか？',
+  '二日である。水分と食物繊維を意識せよ。'
 ];
 const MESSAGES_72H = [
-  '三日である。便秘薬も選択肢に入れよ',
-  '三日を超えた。身体の声を聞いてやれ'
+  '……便秘薬も選択肢に入れよ。',
+  '三日を超えた。身体の声を聞いてやれ。'
 ];
 
 /* ---------- Data layer ---------- */
@@ -1533,7 +1534,7 @@ let editingId = null;
 
 function openBowelModal(record = null) {
   editingId = record ? record.id : null;
-  document.getElementById('modal-bowel-title').textContent = record ? '通を編集' : '通を記録';
+  document.getElementById('modal-bowel-title').textContent = record ? '編集' : '記録';
   document.getElementById('bowel-delete').classList.toggle('hidden', !record);
 
   if (record) {
@@ -1950,7 +1951,7 @@ function renderTagEditList(kind) {
   const presets = kind === 'bowel' ? PRESET_BOWEL_TAGS : PRESET_EVENT_TAGS;
   const customs = state.customTags[kind];
   const html = [
-    ...presets.map(t => `<div class="tag-edit preset"><span>${escapeHtml(t)}</span><span class="tag-remove" title="標準タグ">·</span></div>`),
+    ...presets.map(t => `<div class="tag-edit preset"><span>${escapeHtml(t)}</span></div>`),
     ...customs.map(t => `<div class="tag-edit"><span>${escapeHtml(t)}</span><button class="tag-remove" data-tag="${escapeHtml(t)}" data-kind="${kind}">×</button></div>`)
   ].join('');
   container.innerHTML = html;

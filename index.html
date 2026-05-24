@@ -388,17 +388,20 @@
     font-style: italic;
     text-transform: uppercase;
   }
-  .form-input {
-    width: 100%;
-resize: vertical;
-    padding: 12px 14px;
-    background: var(--card-soft);
-    border: 1px solid var(--line);
-    border-radius: 10px;
-    font-size: 14px;
-    color: var(--text);
-    transition: border-color 0.2s;
-  }
+.form-input {
+  width: 100%;
+  max-width: 100%;          /* 追加 */
+  padding: 12px 14px;
+  background: var(--card-soft);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  font-size: 14px;
+  color: var(--text);
+  transition: border-color 0.2s;
+  -webkit-appearance: none;  /* 追加：Safariの独自スタイルを無効化 */
+  appearance: none;          /* 追加 */
+  min-width: 0;              /* 追加：flex/grid子要素のはみ出し防止 */
+}
   .form-input:focus {
     outline: none;
     border-color: var(--accent-green);
